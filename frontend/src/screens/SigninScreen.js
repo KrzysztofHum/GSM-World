@@ -32,8 +32,8 @@ export default function SigninScreen(props) {
         <div>
           <h1>Zaloguj się</h1>
         </div>
-		{loading && <LoadingBox></LoadingBox>}
-		{error && <MessageBox variant="danger">{error}</MessageBox>}
+        {loading && <LoadingBox></LoadingBox>}
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
         <div>
           <label htmlFor="email">Adres e-mail</label>
           <input
@@ -64,7 +64,10 @@ export default function SigninScreen(props) {
           <label />
           <div>
             Nowy użytkownik ? {""}
-            <Link to={`/register>redirect=${redirect}`}> Stwórz swoje konto</Link>
+            <Link to={`/register?redirect=${redirect}`}>
+              {" "}
+              Stwórz swoje konto
+            </Link>
           </div>
         </div>
       </form>
