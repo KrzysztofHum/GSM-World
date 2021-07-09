@@ -142,7 +142,7 @@ export const listUsers = () => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get("/api.users", {
+    const { data } = await Axios.get("/api/users", {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_LIST_SUCCESS, payload: data });
