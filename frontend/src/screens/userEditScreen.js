@@ -6,7 +6,7 @@ import LoadingBox from "../components/LoadingBox";
 import { detailsUser, UpdateUser } from "../actions/userActions";
 import { USER_UPDATE_RESET } from "../constants/userConstants";
 
-export default function userEditScreen(props) {
+export default function UserEditScreen(props) {
   const userId = props.match.params.id;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
