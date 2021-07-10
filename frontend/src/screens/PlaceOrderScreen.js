@@ -96,7 +96,7 @@ export default function PlaceOrderScreen(props) {
               </li>
               <li>
                 <div className="row">
-                  <div>Przedmioty</div>
+                  <div>Przedmioty:</div>
                   <div>{cart.itemsPrice.toFixed(2)} zł</div>
                 </div>
               </li>
