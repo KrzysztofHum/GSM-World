@@ -42,9 +42,14 @@ const DivRow = styled.div`
 
 const Button = styled.button`
   min-width: 40px;
-  background-color: ${({theme}) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary};
+  transition: background-color .5s;
   border: none;
-  i{
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryhover};
+    transition: background-color .5s;
+  }
+  i {
     color: white;
   }
 `;

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
+import { CgShoppingCart } from "react-icons/cg";
+import { FaRegUser } from "react-icons/fa";
 import { Link, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
@@ -9,6 +10,7 @@ import SearchBox from "./SearchBox";
 // import MessageBox from "./MessageBox";
 import styled from "styled-components";
 export default function Navbar() {
+  const [dropdown, setDropdown] = useState(false);
   const cart = useSelector((state) => state.cart);
   //   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
@@ -27,9 +29,10 @@ export default function Navbar() {
   useEffect(() => {
     dispatch(listProductCategories());
   }, [dispatch]);
+  console.log(dropdown);
   return (
     <>
-      <Header className="row">
+      <Header >
         <div>
           {/* <button
             type="button"
@@ -38,60 +41,76 @@ export default function Navbar() {
           >
             <i className="fa fa-bars"></i>
           </button> */}
-          <Linka className="brand" to="/">
-            Świat GSM
-          </Linka>
+          <Linka to="/">Świat GSM</Linka>
         </div>
 
-        <div>
-          <Link to="/cart">
-            Koszyk
+        <Wrapper>
+          {userInfo ? (
+            <>
+              <Link onClick={() => setDropdown(!dropdown)} to="#">
+                <FaRegUser size="35" />
+              </Link>
+              <Dropdown dropdown={dropdown}>
+                <li>
+                  <LinkLi onClick={() => setDropdown(false)} to="/profile">
+                    Profil Użytkownika
+                  </LinkLi>
+                </li>
+                <li>
+                  <LinkLi onClick={() => setDropdown(false)} to="/orderhistory">
+                    Historia zamówień
+                  </LinkLi>
+                </li>
+                {userInfo && userInfo.isAdmin && (
+                  <>
+                    <li>
+                      <LinkLi
+                        onClick={() => setDropdown(false)}
+                        to="/dashboard"
+                      >
+                        Dashboard
+                      </LinkLi>
+                    </li>
+                    <li>
+                      <LinkLi
+                        onClick={() => setDropdown(false)}
+                        to="/productlist"
+                      >
+                        Produkty
+                      </LinkLi>
+                    </li>
+                    <li>
+                      <LinkLi
+                        onClick={() => setDropdown(false)}
+                        to="/orderlist"
+                      >
+                        Zamówienia
+                      </LinkLi>
+                    </li>
+                    <li>
+                      <LinkLi onClick={() => setDropdown(false)} to="/userlist">
+                        Użytkownicy
+                      </LinkLi>
+                    </li>
+                  </>
+                )}
+                <li>
+                  <Link to="#signout" onClick={signoutHandler}>
+                    Wyloguj się
+                  </Link>
+                </li>
+              </Dropdown>
+            </>
+          ) : (
+            <LinkLi to="/signin">Zaloguj się</LinkLi>
+          )}
+          <LinkLi to="/cart">
+            <CgShoppingCart size="40" />
             {cartItems.length > 0 && (
               <span className="badge">{cartItems.length}</span>
             )}
-          </Link>
-          {userInfo ? (
-            <div className="dropdown">
-              <Link to="#">
-                {userInfo.name} <i className="fa fa-caret-down"></i>
-              </Link>
-              <ul className="dropdown-content">
-                <li>
-                  <Link to="/profile">Profil Użytkownika</Link>
-                </li>
-                <li>
-                  <Link to="/orderhistory">Historia zamówień</Link>
-                </li>
-                <Link to="#signout" onClick={signoutHandler}>
-                  Wyloguj się
-                </Link>
-              </ul>
-            </div>
-          ) : (
-            <Link to="/signin">Zaloguj się</Link>
-          )}
-          {userInfo && userInfo.isAdmin && (
-            <div className="dropdown">
-              <Link to="#admin">
-                Admin <i className="fa fa-caret-down"></i>
-              </Link>
-              <ul className="dropdown-content">
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-                <li>
-                  <Link to="/productlist">Produkty</Link>
-                </li>
-                <li>
-                  <Link to="/orderlist">Zamówienia</Link>
-                </li>
-                <li>
-                  <Link to="/userlist">Użytkownicy</Link>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
+          </LinkLi>
+        </Wrapper>
         <div>
           <Route
             render={({ history }) => <SearchBox history={history}></SearchBox>}
@@ -133,14 +152,61 @@ export default function Navbar() {
 }
 
 const Linka = styled(Link)`
+  margin-left: 2rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
 const Header = styled.header`
-padding: 1.5rem;
-border-bottom: 1px solid ${({theme}) => theme.colors.border};
-div {
-	width: 100%auto;
-	padding: 3px;
+  padding: 1.5rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  div {
+    width: 100%auto;
+    padding: 3px;
+  }
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 2rem;
+  margin-right: 2rem;
+`;
+const Dropdown = styled.ul`
+  position: absolute;
+  right: 0;
+  width: 25rem;
+  z-index: 1;
+  margin: 4rem 4rem 0 0;
+  background-color: white;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  display: ${(props) => (props.dropdown ? "block" : "none")};
+  li {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    padding: 1.5rem;
+  }
+`;
+
+const LinkLi = styled(Link)`
+  &:hover {
+    color: ${({ theme }) => theme.colors.fonthover};
+  }
+`;
+/* .dropdown {
+  display: inline-block;
+  position: relative;
 }
-`
+.dropdown-content {
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  z-index: 1;
+  background-color: #ee9051;
+  margin: 0;
+  margin-top: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+} */
