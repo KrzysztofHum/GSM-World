@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import styled from "styled-components";
 
 export default function SearchBox(props) {
   const [name, setName] = useState("");
@@ -8,18 +9,42 @@ export default function SearchBox(props) {
     props.history.push(`/search/name/${name}`);
   };
   return (
-    <form className="search" onSubmit={submitHandler}>
-      <div className="row">
+    <Form onSubmit={submitHandler}>
+      <DivRow className="row">
         <input
+        placeholder="czego szukasz?"
           type="text"
           name="q"
           id="q"
           onChange={(e) => setName(e.target.value)}
         />
-        <button className="primary" type="submit">
+        <Button className="primary" type="submit">
           <i className="fa fa-search"></i>
-        </button>
-      </div>
-    </form>
+        </Button>
+      </DivRow>
+    </Form>
   );
 }
+
+const Form = styled.form`
+  display: flex;
+`;
+
+const DivRow = styled.div`
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  input {
+    border: 1px solid ${({theme}) => theme.colors.border};
+    width: 100%;
+  }
+  `;
+
+const Button = styled.button`
+  min-width: 40px;
+  background-color: ${({theme}) => theme.colors.primary};
+  border: none;
+  i{
+    color: white;
+  }
+`;
