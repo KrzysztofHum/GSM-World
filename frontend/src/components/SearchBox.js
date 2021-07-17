@@ -12,7 +12,7 @@ export default function SearchBox(props) {
     <Form onSubmit={submitHandler}>
       <DivRow className="row">
         <input
-        placeholder="czego szukasz?"
+        placeholder=" czego szukasz?"
           type="text"
           name="q"
           id="q"

@@ -21,6 +21,7 @@ import UserEditScreen from "./screens/UserEditScreen";
 import SearchScreen from "./screens/SearchScreen";
 
 import Navbar from "./components/Navbar";
+import styled from "styled-components";
 
 function App() {
   return (
@@ -81,10 +82,20 @@ function App() {
           ></AdminRoute>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
-        <footer className="row center">Wszystkie prawa zastrzeżone</footer>
+        <Footer style={{ backgroundColor: "#ff5a00" }}>
+          {" "}
+          &copy; {new Date().getFullYear()} <span>GSM Sklep</span> Krzysztof
+          Humienny, Wszelkie prawa zastrzeżone
+        </Footer>
       </div>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+const Footer = styled.footer`
+  background-color: ${({theme}) => theme.colors.primary};
+  padding: 2rem;
+  margin-top: 3rem;
+`

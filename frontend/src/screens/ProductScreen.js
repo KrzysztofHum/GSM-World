@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import Rating from "../components/Rating";
-import { Link } from "react-router-dom";
 import { detailsProduct } from "../actions/productActions";
+import styled from "styled-components";
 
 export default function ProductScreen(props) {
   const dispatch = useDispatch();
@@ -28,86 +28,49 @@ export default function ProductScreen(props) {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <div>
-          <Link to="/">Cofnij</Link>
-          <div className="row top">
-            <div className="col-2">
-              <img
-                className="large"
-                src={product.image}
-                alt={product.name}
-              ></img>
+          <div>
+            <Img src={product.image} alt={product.name}></Img>
+          </div>
+          <MainWrapper>
+            <h1>{product.name}</h1>
+            <Rating rating={product.rating} numReviews={product.numReviews} />
+          </MainWrapper>
+          <PriceDiv>Cena : {product.price} zł</PriceDiv>
+          <StatusDiv>
+            Status:{" "}
+            {product.countInStock > 0 ? (
+              <span style={{ color: "#20a020" }}>Dostępny</span>
+            ) : (
+              <span style={{ color: "#a02020" }}>Niedostępny</span>
+            )}
+          </StatusDiv>
+          {product.countInStock > 0 && (
+            <div>
+              <QtyDiv>
+                <div>Liczba sztuk:</div>
+                <div>
+                  <select value={qty} onChange={(e) => setQty(e.target.value)}>
+                    {[...Array(product.countInStock).keys()].map((x) => (
+                      <option key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </QtyDiv>
+              <AddToCart>
+                <button onClick={addToCartHandler}>Dodaj do koszyka</button>
+              </AddToCart>
             </div>
-            <div className="col-1">
-              <ul>
-                <li>
-                  <h1>{product.name}</h1>
-                </li>
-                <li>
-                  <Rating
-                    rating={product.rating}
-                    numReviews={product.numReviews}
-                  ></Rating>
-                </li>
-                <li>Cena: {product.price} zł</li>
-                <li>
-                  Opis: <p>{product.description}</p>
-                </li>
-              </ul>
+          )}
+          <div>
+            <h2>Opis</h2>
+            <h1>{product.name}</h1>
+            <div>
+              <Img src={product.image} alt={product.name}></Img>
             </div>
-            <div className="col-1">
-              <div className="card card-body">
-                <ul>
-                  <li>
-                    <div className="row">
-                      <div>Cena</div>
-                      <div className="price">{product.price} zł</div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="row">
-                      <div>Status</div>
-                      <div>
-                        {product.countInStock > 0 ? (
-                          <span className="success"> Dostępny</span>
-                        ) : (
-                          <span className="danger">Niedostępny</span>
-                        )}
-                      </div>
-                    </div>
-                  </li>
-                  {product.countInStock > 0 && (
-                    <>
-                      <li>
-                        <div className="row">
-                          <div>Ilość</div>
-                          <div>
-                            <select
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
-                            >
-                              {[...Array(product.countInStock).keys()].map(
-                                (x) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <button
-                          onClick={addToCartHandler}
-                          className="primary block"
-                        >
-                          Dodaj do koszyka
-                        </button>
-                      </li>
-                    </>
-                  )}
-                </ul>
-              </div>
+            <div>
+              <p>{product.description}</p>
             </div>
           </div>
         </div>
@@ -115,3 +78,53 @@ export default function ProductScreen(props) {
     </div>
   );
 }
+
+const Img = styled.img`
+  height: 50vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const MainWrapper = styled.div`
+  font-size: 2rem;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.border};
+  padding: 1rem;
+`;
+
+const PriceDiv = styled.div`
+  font-size: 4rem;
+  text-align: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  padding: 1rem;
+`;
+
+const StatusDiv = styled.div`
+  font-size: 3rem;
+  padding: 1rem;
+`;
+
+const QtyDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+  font-size: 3rem;
+  select {
+    padding: 1rem;
+    border-radius: 3px;
+  }
+`;
+
+const AddToCart = styled.div`
+  border-bottom: 10px solid ${({ theme }) => theme.colors.border};
+
+  button {
+    display: flex;
+    padding: 1rem;
+    color: white;
+    background-color: ${({ theme }) => theme.colors.primary};
+    border: none;
+    border-radius: 2rem;
+    margin: 1rem auto;
+  }
+`;

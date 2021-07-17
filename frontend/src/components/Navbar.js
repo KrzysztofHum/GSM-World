@@ -12,7 +12,7 @@ import styled from "styled-components";
 export default function Navbar() {
   const [dropdown, setDropdown] = useState(false);
   const cart = useSelector((state) => state.cart);
-  //   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+    // const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -29,10 +29,9 @@ export default function Navbar() {
   useEffect(() => {
     dispatch(listProductCategories());
   }, [dispatch]);
-  console.log(dropdown);
   return (
     <>
-      <Header >
+      <Header onClick={() => (dropdown ? setDropdown(false) : "")}>
         <div>
           {/* <button
             type="button"
@@ -52,12 +51,12 @@ export default function Navbar() {
               </Link>
               <Dropdown dropdown={dropdown}>
                 <li>
-                  <LinkLi onClick={() => setDropdown(false)} to="/profile">
+                  <LinkLi  to="/profile">
                     Profil Użytkownika
                   </LinkLi>
                 </li>
                 <li>
-                  <LinkLi onClick={() => setDropdown(false)} to="/orderhistory">
+                  <LinkLi  to="/orderhistory">
                     Historia zamówień
                   </LinkLi>
                 </li>
@@ -65,7 +64,7 @@ export default function Navbar() {
                   <>
                     <li>
                       <LinkLi
-                        onClick={() => setDropdown(false)}
+                       
                         to="/dashboard"
                       >
                         Dashboard
@@ -73,7 +72,7 @@ export default function Navbar() {
                     </li>
                     <li>
                       <LinkLi
-                        onClick={() => setDropdown(false)}
+                        
                         to="/productlist"
                       >
                         Produkty
@@ -81,14 +80,14 @@ export default function Navbar() {
                     </li>
                     <li>
                       <LinkLi
-                        onClick={() => setDropdown(false)}
+                       
                         to="/orderlist"
                       >
                         Zamówienia
                       </LinkLi>
                     </li>
                     <li>
-                      <LinkLi onClick={() => setDropdown(false)} to="/userlist">
+                      <LinkLi  to="/userlist">
                         Użytkownicy
                       </LinkLi>
                     </li>
