@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CheckoutSteps from "../components/CheckoutSteps";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { createOrder } from "../actions/orderActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -31,107 +31,125 @@ export default function PlaceOrderScreen(props) {
     }
   }, [success, order, props.history, dispatch]);
   return (
-    <div>
-      <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
-      <div className="row top">
-        <div className="col-2">
-          <ul>
-            <li>
-              <div className="card card-body">
-                <h2>Dostawa</h2>
-                <p>
-                  <strong>Zamawiający:</strong>
-                  {cart.shippingAddress.fullName} <br />
-                  <strong>Adres:</strong> {cart.shippingAddress.address},
-                  {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}
-                  ,{cart.shippingAddress.country}
-                </p>
-              </div>
-            </li>
-            <li>
-              <div className="card card-body">
-                <h2>Płatność</h2>
-                <p>
-                  <strong>Metoda płatności:</strong>
-                  {cart.paymentMethod}
-                </p>
-              </div>
-            </li>
-            <li>
-              <div className="card card-body">
-                <h2>Zamówienie</h2>
-                <ul>
-                  {cart.cartItems.map((item) => (
-                    <li key={item.product}>
-                      <div className="row">
-                        <div>
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="small"
-                          ></img>
-                        </div>
-                        <div className="min-30">
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                        </div>
-                        <div>
-                          {item.qty} x {item.price} zł = {item.qty * item.price}{" "}
-                          zł
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div className="col-1">
-          <div className="card card-body">
+    <Wrapper>
+      <div>
+        <div>
+          <Details>
+            <h2>Dostawa</h2>
+            <p>
+              <strong>Zamawiający: </strong>
+              {cart.shippingAddress.fullName} <br />
+              <br />
+              <strong>Adres dostawy: </strong> {cart.shippingAddress.address},
+              {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
+              {cart.shippingAddress.country}
+            </p>
+          </Details>
+          <Details>
+            <h2>Płatność</h2>
+            <p>
+              <strong>Metoda płatności:</strong>
+              {cart.paymentMethod}
+            </p>
+          </Details>
+          <Details>
+            <h2>Zamówienie</h2>
             <ul>
-              <li>
-                <h2>Podsumowanie</h2>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Przedmioty:</div>
-                  <div>{cart.itemsPrice.toFixed(2)} zł</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Dostawa</div>
-                  <div>{cart.shippingPrice.toFixed(2)} zł</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>
-                    <strong>Cena całkowita</strong>
-                  </div>
-                  <div>
-                    <strong>{cart.totalPrice.toFixed(2)} zł</strong>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={placeOrderHandler}
-                  className="primary block"
-                  disabled={cart.cartItems.length === 0}
-                >
-                  Zatwierdź zamówienie
-                </button>
-              </li>
-              {loading && <LoadingBox></LoadingBox>}
-              {error && <MessageBox variant="danger">{error}</MessageBox>}
+              {cart.cartItems.map((item) => (
+                <li key={item.product}>
+                  <DetailsOrder>
+                    <div>
+                      <Img src={item.image} alt={item.name}></Img>
+                    </div>
+                    <div>
+                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    </div>
+                    <div>
+                      {item.qty} x {item.price} zł = {item.qty * item.price} zł
+                    </div>
+                  </DetailsOrder>
+                </li>
+              ))}
             </ul>
-          </div>
+          </Details>
         </div>
+
+        <Details>
+          <h2>Podsumowanie</h2>
+          <DetailsOrder>
+            <div>Przedmioty:</div>
+            <div>{cart.itemsPrice.toFixed(2)} zł</div>
+          </DetailsOrder>
+          <DetailsOrder>
+            <div>Dostawa:</div>
+            <div>{cart.shippingPrice.toFixed(2)} zł</div>
+          </DetailsOrder>
+          <DetailsOrder>
+            <div>
+              <strong>Cena całkowita:</strong>
+            </div>
+            <div>
+              <strong>{cart.totalPrice.toFixed(2)} zł</strong>
+            </div>
+          </DetailsOrder>
+          <Button
+            type="button"
+            onClick={placeOrderHandler}
+            disabled={cart.cartItems.length === 0}
+          >
+            Zatwierdź zamówienie
+          </Button>
+          {loading && <LoadingBox></LoadingBox>}
+          {error && <MessageBox variant="danger">{error}</MessageBox>}
+        </Details>
       </div>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  padding: 1rem;
+  h1 {
+    text-align: center;
+  }
+`;
+
+const Details = styled.div`
+  background-color: #f8f8f8;
+  border: 0.1rem solid silver;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  padding: 1rem;
+  div {
+    padding: .3rem;
+  }
+  p {
+    padding: 1rem;
+  }
+`;
+
+const DetailsOrder = styled.div`
+display: flex;
+flex-direction: row;
+padding: .5rem;
+align-items: center;
+div {
+  width: 100%;
+}
+`
+
+const Img = styled.img`
+  height: 10vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const Button = styled.button`
+  display: flex;
+  padding: 1rem 4rem;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border: none;
+  border-radius: 2rem;
+  margin: 1rem auto;
+`;

@@ -12,7 +12,7 @@ import styled from "styled-components";
 export default function Navbar() {
   const [dropdown, setDropdown] = useState(false);
   const cart = useSelector((state) => state.cart);
-    // const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  // const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -51,45 +51,24 @@ export default function Navbar() {
               </Link>
               <Dropdown dropdown={dropdown}>
                 <li>
-                  <LinkLi  to="/profile">
-                    Profil Użytkownika
-                  </LinkLi>
+                  <LinkLi to="/profile">Profil Użytkownika</LinkLi>
                 </li>
                 <li>
-                  <LinkLi  to="/orderhistory">
-                    Historia zamówień
-                  </LinkLi>
+                  <LinkLi to="/orderhistory">Historia zamówień</LinkLi>
                 </li>
                 {userInfo && userInfo.isAdmin && (
                   <>
                     <li>
-                      <LinkLi
-                       
-                        to="/dashboard"
-                      >
-                        Dashboard
-                      </LinkLi>
+                      <LinkLi to="/dashboard">Dashboard</LinkLi>
                     </li>
                     <li>
-                      <LinkLi
-                        
-                        to="/productlist"
-                      >
-                        Produkty
-                      </LinkLi>
+                      <LinkLi to="/productlist">Produkty</LinkLi>
                     </li>
                     <li>
-                      <LinkLi
-                       
-                        to="/orderlist"
-                      >
-                        Zamówienia
-                      </LinkLi>
+                      <LinkLi to="/orderlist">Zamówienia</LinkLi>
                     </li>
                     <li>
-                      <LinkLi  to="/userlist">
-                        Użytkownicy
-                      </LinkLi>
+                      <LinkLi to="/userlist">Użytkownicy</LinkLi>
                     </li>
                   </>
                 )}
@@ -103,12 +82,10 @@ export default function Navbar() {
           ) : (
             <LinkLi to="/signin">Zaloguj się</LinkLi>
           )}
-          <LinkLi to="/cart">
+          <Link to="/cart">
             <CgShoppingCart size="40" />
-            {cartItems.length > 0 && (
-              <span className="badge">{cartItems.length}</span>
-            )}
-          </LinkLi>
+            {cartItems.length > 0 && <Badge>{cartItems.length}</Badge>}
+          </Link>
         </Wrapper>
         <div>
           <Route
@@ -189,23 +166,10 @@ const LinkLi = styled(Link)`
     color: ${({ theme }) => theme.colors.fonthover};
   }
 `;
-/* .dropdown {
-  display: inline-block;
-  position: relative;
-}
-.dropdown-content {
-  position: absolute;
-  display: none;
-  right: 0;
-  min-width: 12rem;
-  padding: 1rem;
-  z-index: 1;
-  background-color: #ee9051;
-  margin: 0;
-  margin-top: 0.4rem;
-  border-radius: 0.5rem;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-} */
+const Badge = styled.span`
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 50%;
+  padding: 0.2rem 0.7rem;
+  font-size: 1.4rem;
+  margin-left: 0.2rem;
+`;

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { saveShippingAddress } from "../actions/cartActions";
-import CheckoutSteps from "../components/CheckoutSteps";
 
 export default function ShippingAddressScreen(props) {
-	const userSignin = useSelector(state => state.userSignin);
-	const {userInfo} = userSignin;
-	const cart = useSelector(state => state.cart);
-	const {shippingAddress} = cart;
-	if(!userInfo) {
-		props.history.push('/signin');
-	}
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
+  if (!userInfo) {
+    props.history.push("/signin");
+  }
   const [fullName, setFullName] = useState(shippingAddress.fullName);
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
@@ -25,14 +25,13 @@ export default function ShippingAddressScreen(props) {
     props.history.push("/payment");
   };
   return (
-    <div>
-      <CheckoutSteps step1 step2></CheckoutSteps>
-      <form className="form" onSubmit={submitHandler}>
+    <Wrapper>
+      <form onSubmit={submitHandler}>
         <div>
           <h1>Adres wysyłki</h1>
         </div>
-        <div>
-          <label htmlFor="fullName">Imię</label>
+        <FormDiv>
+          <label htmlFor="fullName">Imię:</label>
           <input
             type="text"
             id="fullName"
@@ -41,9 +40,9 @@ export default function ShippingAddressScreen(props) {
             onChange={(e) => setFullName(e.target.value)}
             required
           ></input>
-        </div>
-        <div>
-          <label htmlFor="address">Adres</label>
+        </FormDiv>
+        <FormDiv>
+          <label htmlFor="address">Adres:</label>
           <input
             type="text"
             id="address"
@@ -52,9 +51,9 @@ export default function ShippingAddressScreen(props) {
             onChange={(e) => setAddress(e.target.value)}
             required
           ></input>
-        </div>
-        <div>
-          <label htmlFor="city">Miejscowość</label>
+        </FormDiv>
+        <FormDiv>
+          <label htmlFor="city">Miejscowość:</label>
           <input
             type="text"
             id="city"
@@ -63,9 +62,9 @@ export default function ShippingAddressScreen(props) {
             onChange={(e) => setCity(e.target.value)}
             required
           ></input>
-        </div>
-        <div>
-          <label htmlFor="postalCode">Kod pocztowy</label>
+        </FormDiv>
+        <FormDiv>
+          <label htmlFor="postalCode">Kod pocztowy:</label>
           <input
             type="text"
             id="postalCode"
@@ -74,9 +73,9 @@ export default function ShippingAddressScreen(props) {
             onChange={(e) => setPostalCode(e.target.value)}
             required
           ></input>
-        </div>
-        <div>
-          <label htmlFor="country">Kraj</label>
+        </FormDiv>
+        <FormDiv>
+          <label htmlFor="country">Kraj:</label>
           <input
             type="text"
             id="country"
@@ -85,14 +84,46 @@ export default function ShippingAddressScreen(props) {
             onChange={(e) => setCountry(e.target.value)}
             required
           ></input>
-        </div>
+        </FormDiv>
         <div>
           <label />
-          <button className="primary" type="submit">
-            Kontynuj
-          </button>
+          <Button type="submit">Kontynuj</Button>
         </div>
       </form>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  padding: 1rem;
+  form {
+    padding: 1rem;
+  }
+  h1 {
+    text-align: center;
+  }
+`;
+const FormDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem #a4a4a4 solid;
+    font-size: 1.6rem;
+    margin-top: 3px;
+  }
+`;
+
+const Button = styled.button`
+
+    display: flex;
+    padding: 1rem 4rem;
+    color: white;
+    background-color: ${({ theme }) => theme.colors.primary};
+    border: none;
+    border-radius: 2rem;
+    margin: 1rem auto;
+
+`;

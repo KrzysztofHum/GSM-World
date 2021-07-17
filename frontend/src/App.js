@@ -26,9 +26,9 @@ import styled from "styled-components";
 function App() {
   return (
     <BrowserRouter>
-      <div className="grid-container">
+      <Wrapper >
         <Navbar />
-        <main>
+        <Main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} exact></Route>
           <Route
@@ -81,21 +81,32 @@ function App() {
             component={UserEditScreen}
           ></AdminRoute>
           <Route path="/" component={HomeScreen} exact></Route>
-        </main>
+        </Main>
         <Footer style={{ backgroundColor: "#ff5a00" }}>
           {" "}
           &copy; {new Date().getFullYear()} <span>GSM Sklep</span> Krzysztof
           Humienny, Wszelkie prawa zastrzeżone
         </Footer>
-      </div>
+      </Wrapper>
     </BrowserRouter>
   );
 }
 
 export default App;
 
-const Footer = styled.footer`
-  background-color: ${({theme}) => theme.colors.primary};
-  padding: 2rem;
-  margin-top: 3rem;
+const Wrapper = styled.div`
+  position: relative;
+  min-height: 100vh;
+`;
+
+const Main = styled.main`
+padding-bottom: 8rem;
 `
+
+const Footer = styled.footer`
+  background-color: ${({ theme }) => theme.colors.primary};
+  padding: 2rem;
+  position: absolute;
+  bottom: 0;
+  height: 8rem;
+`;
