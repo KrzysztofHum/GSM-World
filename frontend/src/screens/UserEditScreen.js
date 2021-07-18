@@ -5,6 +5,7 @@ import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
 import { detailsUser, UpdateUser } from "../actions/userActions";
 import { USER_UPDATE_RESET } from "../constants/userConstants";
+import styled from "styled-components";
 
 export default function UserEditScreen(props) {
   const userId = props.match.params.id;
@@ -44,7 +45,7 @@ export default function UserEditScreen(props) {
     dispatch(UpdateUser({ _id: userId, name, email, isSeller, isAdmin }));
   };
   return (
-    <div>
+    <Wrapper>
       <form className="form" onSubmit={submitHandler}>
         <div>
           <h1>Edutuj użytkownika {name}</h1>
@@ -59,7 +60,7 @@ export default function UserEditScreen(props) {
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <>
-            <div>
+            <FormDiv>
               <label htmlFor="name">Nazwa</label>
               <input
                 type="text"
@@ -68,8 +69,8 @@ export default function UserEditScreen(props) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="email">E-mail</label>
               <input
                 type="email"
@@ -78,8 +79,8 @@ export default function UserEditScreen(props) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="isSeller">Sprzedawca</label>
               <input
                 type="isSeller"
@@ -87,8 +88,8 @@ export default function UserEditScreen(props) {
                 checked={isSeller}
                 onChange={(e) => setIsSeller(e.target.checked)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="isAdmin">Admin</label>
               <input
                 type="isAdmin"
@@ -96,15 +97,47 @@ export default function UserEditScreen(props) {
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
               />
-            </div>
+            </FormDiv>
             <div>
-              <button type="submit" className="primary">
+              <Button type="submit" className="primary">
                 Aktualizuj
-              </button>
+              </Button>
             </div>
           </>
         )}
       </form>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  padding: 1rem;
+  form {
+    padding: 1rem;
+  }
+  h1 {
+    text-align: center;
+  }
+`;
+const FormDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem #a4a4a4 solid;
+    font-size: 1.6rem;
+    margin-top: 3px;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  padding: 1rem 4rem;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border: none;
+  border-radius: 2rem;
+  margin: 1rem auto;
+`;

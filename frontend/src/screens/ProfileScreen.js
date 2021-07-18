@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { detailsUser, UpdateUserProfile } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -42,8 +43,8 @@ export default function ProfileScreen() {
     }
   };
   return (
-    <div>
-      <form className="form" onSubmit={submitHandler}>
+    <Wrapper>
+      <form onSubmit={submitHandler}>
         <div>
           <h1>Profil Użytkownika</h1>
         </div>
@@ -62,7 +63,7 @@ export default function ProfileScreen() {
                 Profil został zaktualizowany
               </MessageBox>
             )}
-            <div>
+            <FormDiv>
               <label htmlFor="name">Imie</label>
               <input
                 type="text"
@@ -71,8 +72,8 @@ export default function ProfileScreen() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -81,8 +82,8 @@ export default function ProfileScreen() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="password">Hasło</label>
               <input
                 type="password"
@@ -90,8 +91,8 @@ export default function ProfileScreen() {
                 placeholder="Wpisz hasło"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-            <div>
+            </FormDiv>
+            <FormDiv>
               <label htmlFor="ConfirmPassword">Potwierdź hasło</label>
               <input
                 type="ConfirmPassword"
@@ -99,16 +100,47 @@ export default function ProfileScreen() {
                 placeholder="Potwierdź hasło"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-            </div>
+            </FormDiv>
             <div>
               <label />
-              <button className="primary" type="submit">
+              <Button type="submit">
                 Zaktualizuj
-              </button>
+              </Button>
             </div>
           </>
         )}
       </form>
-    </div>
+    </Wrapper>
   );
 }
+const Wrapper = styled.div`
+  padding: 1rem;
+  form {
+    padding: 1rem;
+  }
+  h1 {
+    text-align: center;
+  }
+`;
+const FormDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.1rem #a4a4a4 solid;
+    font-size: 1.6rem;
+    margin-top: 3px;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  padding: 1rem 4rem;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border: none;
+  border-radius: 2rem;
+  margin: 1rem auto;
+`;

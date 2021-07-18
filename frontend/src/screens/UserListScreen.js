@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { deleteUser, listUsers } from "../actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -27,7 +28,7 @@ export default function UserListScreen(props) {
     }
   };
   return (
-    <div>
+    <Wrapper>
       <h1>Użytkownicy</h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
       {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -39,7 +40,7 @@ export default function UserListScreen(props) {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <Table>
           <thead>
             <tr>
               <th>ID</th>
@@ -53,32 +54,100 @@ export default function UserListScreen(props) {
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.isSeller ? "TAK" : "NIE"}</td>
-                <td>{user.isAdmin ? "TAK" : "NIE"}</td>
+                <td data-label="ID">{user._id}</td>
+                <td data-label="Nazwa">{user.name}</td>
+                <td data-label="Email">{user.email}</td>
+                <td data-label="Sprzedawca">{user.isSeller ? "TAK" : "NIE"}</td>
+                <td data-label="Admin">{user.isAdmin ? "TAK" : "NIE"}</td>
                 <td>
-                  <button
+                  <Button
                     type="button"
-                    className="small"
                     onClick={() => props.history.push(`/user/${user._id}/edit`)}
                   >
                     Edytuj
-                  </button>
-                  <button
-                    type="button"
-                    className="small"
-                    onClick={() => deleteHandler(user)}
-                  >
+                  </Button>
+                  <Button type="button" onClick={() => deleteHandler(user)}>
                     Usuń
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       )}
-    </div>
+    </Wrapper>
   );
 }
+
+
+const Wrapper = styled.div`
+  h1 {
+    text-align: center;
+    padding: 1rem;
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  display: block;
+  tbody {
+    display: block;
+    width: 100%;
+    tr:nth-child(even) {
+      background-color: #f5f5f5;
+    }
+    tr td:last-child {
+      display: flex;
+      margin: auto;
+      padding: 0;
+    }
+  }
+  thead {
+    display: none;
+  }
+  th {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    background-color: darkblue;
+    color: #ffffff;
+  }
+  td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding-left: 30%;
+    position: relative;
+    &:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 40%;
+      padding-left: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  tr {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  padding: 1rem 4rem;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border: none;
+  border-radius: 2rem;
+  margin: 1rem auto;
+`;
