@@ -10,15 +10,18 @@ export default function SearchBox(props) {
   };
   return (
     <Form onSubmit={submitHandler}>
-      <DivRow className="row">
+      <DivRow>
         <input
-        placeholder=" czego szukasz?"
+          placeholder=" czego szukasz?"
           type="text"
           name="q"
           id="q"
           onChange={(e) => setName(e.target.value)}
         />
-        <Button className="primary" type="submit">
+        <ButtonSort>
+          Filtruj
+        </ButtonSort>
+        <Button type="submit">
           <i className="fa fa-search"></i>
         </Button>
       </DivRow>
@@ -52,4 +55,18 @@ const Button = styled.button`
   i {
     color: white;
   }
+`;
+
+const ButtonSort = styled.button`
+  min-width: 60px;
+  background-color: green;
+  transition: background-color 0.5s;
+  border: none;
+  color: white;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryhover};
+    transition: background-color 0.5s;
+  }
+
 `;

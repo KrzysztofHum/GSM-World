@@ -6,13 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../actions/userActions";
 import { listProductCategories } from "../actions/productActions";
 import SearchBox from "./SearchBox";
-// import LoadingBox from "./LoadingBox";
-// import MessageBox from "./MessageBox";
+
 import styled from "styled-components";
 export default function Navbar() {
   const [dropdown, setDropdown] = useState(false);
   const cart = useSelector((state) => state.cart);
-  // const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const { cartItems } = cart;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -20,12 +18,7 @@ export default function Navbar() {
   const signoutHandler = () => {
     dispatch(signout());
   };
-  //   const productCategoryList = useSelector((state) => state.productCategoryList);
-  //   const {
-  //     loading: loadingCategories,
-  //     error: errorCategories,
-  //     categories,
-  //   } = productCategoryList;
+
   useEffect(() => {
     dispatch(listProductCategories());
   }, [dispatch]);
@@ -33,13 +26,6 @@ export default function Navbar() {
     <>
       <Header onClick={() => (dropdown ? setDropdown(false) : "")}>
         <div>
-          {/* <button
-            type="button"
-            className="open-sidebar"
-            onClick={() => setSidebarIsOpen(true)}
-          >
-            <i className="fa fa-bars"></i>
-          </button> */}
           <Linka to="/">Świat GSM</Linka>
         </div>
 
@@ -93,36 +79,6 @@ export default function Navbar() {
           ></Route>
         </div>
       </Header>
-      {/* <aside className={sidebarIsOpen ? "open" : ""} >
-        <ul className="categories">
-          <li>
-            <strong>Kategorie</strong>
-            <button
-              onClick={() => setSidebarIsOpen(false)}
-              className="close-sidebar"
-              type="button"
-            >
-              <i className="fa fa-close"></i>
-            </button>
-          </li>
-          {loadingCategories ? (
-            <LoadingBox></LoadingBox>
-          ) : errorCategories ? (
-            <MessageBox variant="danger">{errorCategories}</MessageBox>
-          ) : (
-            categories.map((c) => {
-              <li key={c}>
-                <Link
-                  to={`/search/category/${c}`}
-                  onClick={() => setSidebarIsOpen(false)}
-                >
-                  {c}
-                </Link>
-              </li>;
-            })
-          )}
-        </ul>
-      </aside> */}
     </>
   );
 }

@@ -9,6 +9,7 @@ import Product from "../components/Product";
 import { Link } from "react-router-dom";
 import { prices, ratings } from "../utils";
 import Rating from "../components/Rating";
+import styled from "styled-components";
 
 export default function SearchScreen(props) {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function SearchScreen(props) {
     min = 0,
     max = 0,
     rating = 0,
-    order = '',
+    order = "",
   } = useParams();
   useEffect(() => {
     dispatch(
@@ -53,37 +54,34 @@ export default function SearchScreen(props) {
   };
 
   return (
-    <div>
-      <div className="row top">
+    <Wrapper>
+      <div>
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <div>{products.length} Rezultat</div>
+          <h3>Wynik wyszukiwania: {products.length} </h3>
         )}
-        <div>
-          Sortuj{" "}
-          {
-            <select
-              value={order}
-
-              onChange={(e) => {
-                props.history.push(getFilterUrl({ order: e.target.value }));
-              }}
-            >
-              <option value="newest">Najnowsze produkty</option>
-              <option value="lowest">Najtańsze produkty</option>
-              <option value="highest">Najdroższe produkty</option>
-              <option value="toprated">Najlepiej oceniane produkty</option>
-            </select>
-          }
-        </div>
+        <Sorting>
+          <div>Sortowanie: </div>
+          <select
+            value={order}
+            onChange={(e) => {
+              props.history.push(getFilterUrl({ order: e.target.value }));
+            }}
+          >
+            <option value="newest">Najnowsze produkty</option>
+            <option value="lowest">Najtańsze produkty</option>
+            <option value="highest">Najdroższe produkty</option>
+            <option value="toprated">Najlepiej oceniane produkty</option>
+          </select>
+        </Sorting>
       </div>
-      <div className="row">
-        <div className="col-1">
-          <h3>Dział </h3>
-          <div>
+      <div>
+        <div>
+          <Filtration>
+            <h3>Kategorie </h3>
             {loadingCategories ? (
               <LoadingBox></LoadingBox>
             ) : errorCategories ? (
@@ -91,60 +89,46 @@ export default function SearchScreen(props) {
             ) : (
               <ul>
                 <li>
-                  <Link
-                    className={"all" === category ? "active" : ""}
-                    to={getFilterUrl({ category: "all" })}
-                  >
-                    wszystkie
-                  </Link>
+                  <Link to={getFilterUrl({ category: "all" })}>wszystkie</Link>
                 </li>
                 {categories.map((c) => (
                   <li key={c}>
-                    <Link
-                      className={c === category ? "active" : ""}
-                      to={getFilterUrl({ category: c })}
-                    >
-                      {c}
-                    </Link>
+                    <Link to={getFilterUrl({ category: c })}>{c}</Link>
                   </li>
                 ))}
               </ul>
             )}
-          </div>
-          <div>
+          </Filtration>
+          <Filtration>
             <h3>Cena</h3>
             <ul>
               {prices.map((p) => (
                 <li key={p.name}>
-                  <Link
-                    to={getFilterUrl({ min: p.min, max: p.max })}
-                    className={
-                      `${p.min}-${p.max}` === `${min} - ${max}` ? "active" : ""
-                    }
-                  >
+                  <Link to={getFilterUrl({ min: p.min, max: p.max })}>
                     {p.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </Filtration>
+          <Filtration>
             <h3>Ocena konsumentów</h3>
             <ul>
               {ratings.map((r) => (
                 <li key={r.name}>
-                  <Link
-                    to={getFilterUrl({ rating: r.rating })}
-                    className={`${r.rating}` === `${rating}` ? "active" : ""}
-                  >
-                    <Rating caption={" & więcej"} rating={r.rating}></Rating>
+                  <Link to={getFilterUrl({ rating: r.rating })}>
+                    <Rating
+                      caption={" & więcej"}
+                      rating={r.rating}
+                      numReviews={""}
+                    ></Rating>
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </Filtration>
         </div>
-        <div className="col-3">
+        <div>
           {loading ? (
             <LoadingBox></LoadingBox>
           ) : error ? (
@@ -154,7 +138,7 @@ export default function SearchScreen(props) {
               {products.length === 0 && (
                 <MessageBox>Produkt nie znaleziony</MessageBox>
               )}
-              <div className="row center">
+              <div>
                 {products.map((product) => (
                   <Product key={product._id} product={product}></Product>
                 ))}
@@ -163,6 +147,36 @@ export default function SearchScreen(props) {
           )}
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  h3 {
+    padding: 1rem;
+    text-align: center;
+  }
+`;
+const Sorting = styled.div`
+  font-size: 2rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.border};
+  select {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+  }
+`;
+
+const Filtration = styled.div`
+  padding: 1rem;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.border};
+  ul li {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    font-size: 2rem;
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: 3px;
+  }
+`;

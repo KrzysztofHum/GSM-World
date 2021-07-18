@@ -26,7 +26,7 @@ import styled from "styled-components";
 function App() {
   return (
     <BrowserRouter>
-      <Wrapper >
+      <Wrapper>
         <Navbar />
         <Main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
@@ -43,6 +43,7 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+          <Route path="/search" component={SearchScreen} exact></Route>
           <Route
             path="/search/name/:name?"
             component={SearchScreen}
@@ -100,8 +101,8 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.main`
-padding-bottom: 8rem;
-`
+  padding-bottom: 8rem;
+`;
 
 const Footer = styled.footer`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -109,4 +110,6 @@ const Footer = styled.footer`
   position: absolute;
   bottom: 0;
   height: 8rem;
+  width: 100%;
+  text-align: center;
 `;
