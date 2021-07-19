@@ -26,10 +26,28 @@ export default function Product(props) {
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 4rem 1rem 0 2rem;
+  flex-direction: column;
+  padding: 4rem 1rem 2rem 2rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  @media (min-width: 550px) {
+    padding: 4rem 5rem 2rem 5rem;
+    flex-direction: row;
+  }
+  @media (min-width: 768px) {
+    flex-direction: column;
+    width: 50%;
+  }
+  @media (min-width: 1200px) {
+    width: calc(100% / 3);
+  }
+  &:hover {
+    background-color: whitesmoke;
+  }
   img {
-    width: 12rem;
-    height: 12rem;
+    width: 15rem;
+    height: 15rem;
   }
 `;
 
@@ -37,14 +55,12 @@ const DescDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0 2rem;
-  h2 {
-    text-align: center;
-  }
+  font-size: 2.5rem;
 `;
 
 const PriceDiv = styled.div`
   justify-content: center;
-  align-self: flex-end;
   font-size: 2.5rem;
 `;

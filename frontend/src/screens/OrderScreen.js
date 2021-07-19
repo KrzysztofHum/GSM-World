@@ -194,6 +194,8 @@ export default function OrderScreen(props) {
 
 const Wrapper = styled.div`
   padding: 1rem;
+  max-width: 700px;
+  margin: 1rem auto;
   h1 {
     font-size: 2rem;
     text-align: center;

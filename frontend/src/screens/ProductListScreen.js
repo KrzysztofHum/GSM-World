@@ -109,6 +109,8 @@ export default function ProductListScreen(props) {
 }
 
 const Wrapper = styled.div`
+  margin: 2rem auto;
+  max-width: 40rem;
   h1 {
     text-align: center;
     padding: 1rem;

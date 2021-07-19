@@ -4,6 +4,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
+import styled from "styled-components";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function HomeScreen() {
     dispatch(listProducts({}));
   }, [dispatch]);
   return (
-    <div>
+    <Wrapper>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -32,6 +33,13 @@ export default function HomeScreen() {
           </>
         </>
       )}
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`;

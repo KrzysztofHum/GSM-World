@@ -98,6 +98,9 @@ const Wrapper = styled.div`
   padding: 1rem;
   form {
     padding: 1rem;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
   }
   h1 {
     text-align: center;
@@ -106,7 +109,9 @@ const Wrapper = styled.div`
 const FormDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 1rem;
+  justify-content: center;
+  margin: 2rem auto;
+  max-width: 40rem;
   input {
     padding: 0.5rem;
     border-radius: 0.5rem;

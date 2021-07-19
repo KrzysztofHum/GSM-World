@@ -37,6 +37,7 @@ const DivRow = styled.div`
   width: 100%;
   min-height: 40px;
   display: flex;
+  max-width: 60rem;
   input {
     border: 1px solid ${({theme}) => theme.colors.border};
     width: 100%;

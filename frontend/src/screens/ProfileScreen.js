@@ -115,6 +115,8 @@ export default function ProfileScreen() {
 }
 const Wrapper = styled.div`
   padding: 1rem;
+  margin: 2rem auto;
+  max-width: 40rem;
   form {
     padding: 1rem;
   }

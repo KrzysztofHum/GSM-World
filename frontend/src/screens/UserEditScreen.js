@@ -111,6 +111,8 @@ export default function UserEditScreen(props) {
 }
 
 const Wrapper = styled.div`
+  margin: 2rem auto;
+  max-width: 40rem;
   padding: 1rem;
   form {
     padding: 1rem;

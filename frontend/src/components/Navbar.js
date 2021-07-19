@@ -25,9 +25,11 @@ export default function Navbar() {
   return (
     <>
       <Header onClick={() => (dropdown ? setDropdown(false) : "")}>
-        <div>
-          <Linka to="/">Świat GSM</Linka>
-        </div>
+        <Logo>
+          <Linka to="/">
+            GSM WORLD
+          </Linka>
+        </Logo>
 
         <Wrapper>
           {userInfo ? (
@@ -83,6 +85,8 @@ export default function Navbar() {
   );
 }
 
+
+
 const Linka = styled(Link)`
   margin-left: 2rem;
   color: ${({ theme }) => theme.colors.primary};
@@ -94,6 +98,19 @@ const Header = styled.header`
   div {
     width: 100%auto;
     padding: 3px;
+  }
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: space-evenly;
+  }
+`;
+
+const Logo = styled.div`
+  font-size: 3rem;
+  a {
+    border: 5px solid ${({ theme }) => theme.colors.primary};
+    border-radius: 1.5rem;
+    background-color: #fff3ec;
   }
 `;
 const Wrapper = styled.div`
@@ -111,6 +128,9 @@ const Dropdown = styled.ul`
   background-color: white;
   border: 1px solid ${({ theme }) => theme.colors.border};
   display: ${(props) => (props.dropdown ? "block" : "none")};
+  @media (min-width: 768px) {
+    left: 50%;
+  }
   li {
     border-bottom: 1px solid ${({ theme }) => theme.colors.border};
     padding: 1.5rem;

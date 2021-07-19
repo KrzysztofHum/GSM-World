@@ -40,7 +40,7 @@ export default function SearchScreen(props) {
         order,
       })
     );
-  }, [category, dispatch, name, min, max, rating]);
+  }, [category, dispatch, name, min, max, rating, order]);
 
   const getFilterUrl = (filter) => {
     const filterCategory = filter.category || category;
@@ -79,7 +79,7 @@ export default function SearchScreen(props) {
         </Sorting>
       </div>
       <div>
-        <div>
+        <FiltrSection>
           <Filtration>
             <h3>Kategorie </h3>
             {loadingCategories ? (
@@ -127,7 +127,7 @@ export default function SearchScreen(props) {
               ))}
             </ul>
           </Filtration>
-        </div>
+        </FiltrSection>
         <div>
           {loading ? (
             <LoadingBox></LoadingBox>
@@ -138,11 +138,11 @@ export default function SearchScreen(props) {
               {products.length === 0 && (
                 <MessageBox>Produkt nie znaleziony</MessageBox>
               )}
-              <div>
+              <Products>
                 {products.map((product) => (
                   <Product key={product._id} product={product}></Product>
                 ))}
-              </div>
+              </Products>
             </>
           )}
         </div>
@@ -169,14 +169,32 @@ const Sorting = styled.div`
   }
 `;
 
+const FiltrSection = styled.div`
+@media (min-width: 1200px) {
+  display: flex;
+  flex-wrap: wrap;
+}
+`
+
 const Filtration = styled.div`
   padding: 1rem;
   border-bottom: 2px solid ${({ theme }) => theme.colors.border};
+  @media (min-width: 1200px) {
+    width: calc(100%/3);
+  }
   ul li {
     padding: 0.5rem;
-    margin: 0.5rem;
+    margin: 0.5rem auto;
     font-size: 2rem;
     border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 3px;
+    max-width: 50rem;
+  }
+`;
+
+const Products = styled.div`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
   }
 `;

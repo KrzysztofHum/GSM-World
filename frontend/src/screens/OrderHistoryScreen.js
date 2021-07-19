@@ -67,6 +67,7 @@ export default function OrderHistoryScreen(props) {
 }
 
 const Wrapper = styled.div`
+  padding: 2rem;
   h1 {
     text-align: center;
     padding: 1rem;
@@ -77,9 +78,20 @@ const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   display: block;
+  margin: 2px auto;
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+  @media (min-width: 1200px) {
+    width: calc(100% / 3);
+  }
   tbody {
     display: block;
     width: 100%;
+    @media (min-width: 768px) {
+      display: flex;
+      flex-wrap: wrap;
+    }
     tr:nth-child(even) {
       background-color: #f5f5f5;
     }

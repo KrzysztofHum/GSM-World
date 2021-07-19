@@ -32,65 +32,69 @@ export default function CartScreen(props) {
         {cartItems.length === 0 ? (
           <Empty>
             <p> Twój kosztyk jest pusty.</p>
-  
-              <EmptyLink to="/">Powrót do sklepu</EmptyLink>
 
+            <EmptyLink to="/">Powrót do sklepu</EmptyLink>
           </Empty>
         ) : (
           <>
             {cartItems.map((item) => (
-              <div key={item.product}>
+              <MainSection key={item.product}>
                 <div>
                   <Img src={item.image} alt={item.name}></Img>
                 </div>
-                <LinkToItem>
-                  <Link to={`/product/${item.product}`}>{item.name}</Link>
-                </LinkToItem>
-                <QtyDiv>
-                  <div>Liczba sztuk:</div>
-                  <div>
-                    <select
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
+                <div>
+                  <LinkToItem>
+                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                  </LinkToItem>
+                  <QtyDiv>
+                    <div>Liczba sztuk:</div>
+                    <div>
+                      <select
+                        value={item.qty}
+                        onChange={(e) =>
+                          dispatch(
+                            addToCart(item.product, Number(e.target.value))
+                          )
+                        }
+                      >
+                        {[...Array(item.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </QtyDiv>
+                  <Price>Cena za sztukę: {item.price} zł</Price>
+                  <RemoveButton>
+                    <button
+                      type="button"
+                      onClick={() => removeFromCartHandler(item.product)}
                     >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </QtyDiv>
-                <Price>Cena za sztukę: {item.price} zł</Price>
-                <RemoveButton>
-                  <button
-                    type="button"
-                    onClick={() => removeFromCartHandler(item.product)}
-                  >
-                    Usuń
-                  </button>
-                </RemoveButton>
-              </div>
+                      Usuń
+                    </button>
+                  </RemoveButton>
+                </div>
+              </MainSection>
             ))}
-      <Summary>
-        <h2>Podsumowanie</h2>
-        <h3>Ilość produktów: {cartItems.reduce((a, c) => a + c.qty, 0)}szt</h3>
-        <h3>
-          Cena za wszystko: {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
-          zł
-        </h3>
-        <button
-          type="button"
-          onClick={checkoutHandler}
-          disabled={cartItems.length === 0}
-        >
-          Kontynuuj zakupy
-        </button>
-      </Summary>
+            <Summary>
+              <h2>Podsumowanie</h2>
+              <h3>
+                Ilość produktów: {cartItems.reduce((a, c) => a + c.qty, 0)}szt
+              </h3>
+              <h3>
+                Cena za wszystko:{" "}
+                {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
+                zł
+              </h3>
+              <button
+                type="button"
+                onClick={checkoutHandler}
+                disabled={cartItems.length === 0}
+              >
+                Kontynuuj zakupy
+              </button>
+            </Summary>
           </>
         )}
       </div>
@@ -158,6 +162,17 @@ const RemoveButton = styled.div`
     margin: 1rem auto;
   }
 `;
+
+const MainSection = styled.div`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2rem;
+    justify-content: space-around;
+  }
+`;
+
 
 const Summary = styled.div`
   border-top: 10px solid ${({ theme }) => theme.colors.border};

@@ -109,6 +109,8 @@ export default function PlaceOrderScreen(props) {
 
 const Wrapper = styled.div`
   padding: 1rem;
+  max-width: 700px;
+  margin: 1rem auto;
   h1 {
     text-align: center;
   }
