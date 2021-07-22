@@ -73,7 +73,6 @@ export default function Rating(props) {
 const RatingWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
 `;
 
 const RatingDiv = styled.div`
@@ -81,6 +80,4 @@ const RatingDiv = styled.div`
   margin: 0.1rem;
 `;
 
-const Caption = styled.div`
-
-`
+const Caption = styled.div``;
