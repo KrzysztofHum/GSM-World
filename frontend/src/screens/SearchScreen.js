@@ -27,7 +27,7 @@ export default function SearchScreen(props) {
     min = 0,
     max = 0,
     rating = 0,
-    order = "",
+    order = "newest",
   } = useParams();
   useEffect(() => {
     dispatch(
